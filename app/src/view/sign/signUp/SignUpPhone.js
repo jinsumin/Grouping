@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { inject, observer } from 'mobx-react';
+import BackgroundTimer from 'react-native-background-timer';
 import NextButton from '../components/NextButton';
 import PhoneNumberInputTextView from '../components/PhoneNumberInputTextView';
 import PhoneCodeInputTextView from '../components/PhoneCodeInputTextView';
@@ -58,13 +59,13 @@ const SignUpPhone = (props) => {
   useEffect(() => {
     let countDown = null;
     if (isActive) {
-      countDown = setInterval(() => {
+      countDown = BackgroundTimer.setInterval(() => {
         if (seconds > 0) {
           setSeconds(seconds - TIME_OUT.A_SECOND);
         }
         if (seconds === 0) {
           if (minutes === 0) {
-            clearInterval(countDown);
+            BackgroundTimer.clearInterval(countDown);
           } else {
             setMinutes(minutes - TIME_OUT.A_SECOND);
             setSeconds(59);
@@ -72,7 +73,7 @@ const SignUpPhone = (props) => {
         }
       }, TIME_OUT.THOUSAND_MILLI_SECONDS);
     }
-    return () => clearInterval(countDown);
+    return () => BackgroundTimer.clearInterval(countDown);
   }, [minutes, seconds, isActive]);
 
   // useEffect(() => {
