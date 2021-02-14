@@ -1,6 +1,5 @@
 import { action, computed, observable } from 'mobx';
 import BackgroundTimer from 'react-native-background-timer';
-import * as Alert from 'react-native';
 import { SIGN_UP_PHONE_VIEW_STATUS } from '../constant/SignUpPhoneStatus';
 import SignRepository from '../repository/SignRepository';
 import FirebaseRepository from '../repository/FirebaseRepository';
@@ -8,6 +7,7 @@ import SignProcessStore from './SignProcessStore';
 import { INPUT_PHONE_STATUS } from '../constant/InputPhoneStatus';
 import PhoneValidator from '../component/PhoneValidator';
 import { TIME_OUT } from '../constant/TimeOut';
+import {useState} from "react";
 
 export default class SignUpPhoneStore {
   koreaPhonePrefixConditionFirst = '010';
@@ -114,7 +114,7 @@ export default class SignUpPhoneStore {
   @action sendPhoneCode = async () => {
     console.log('send code');
     let isSucceed = false;
-    const data = await this.signRepository.checkPhoneNumber(this.phoneNumber, (responseCode) => {});
+    const data = await this.signRepository.checkPhoneNumber(this.phoneNumber);
     if (data.phoneNumberAvailable !== true) {
       this.phoneValidationStatus = INPUT_PHONE_STATUS.PHONE_NUMBER_ALREADY_EXISTED;
       return;
